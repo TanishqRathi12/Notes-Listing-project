@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 import AuthRouter from './Routes/Auth.route';
 const cors = require('cors');
 import OtpRouter from './Routes/otp.route';
+import NotesRouter from './Routes/Notes.route';
 const mongoose = require('mongoose');
 
 
@@ -14,6 +15,7 @@ app.use(cors());
 
 app.use('/auth',AuthRouter);
 app.use('/otp',OtpRouter);
+app.use('/notes',NotesRouter);
 
 const PORT = process.env.PORT || 3000;
 

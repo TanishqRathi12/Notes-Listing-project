@@ -1,4 +1,3 @@
-import { Express } from "express";
 import { Router } from "express";
 import { sendOtp } from "../Controllers/otp.controller";
 import { resetPassword } from "../Controllers/otp.controller";

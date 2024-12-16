@@ -18,6 +18,10 @@ const AuthSchema = new mongoose.Schema({
     dob:{
         type: Date,
         required:true
+    },
+    notes:{
+       type:[String],
+       default:[]
     }
 })
 
@@ -41,6 +45,6 @@ AuthSchema.pre('save', async function (next) {
     }
   };
 
-const Author = mongoose.model("Auth", AuthSchema);
+  const Author = mongoose.models.Auth || mongoose.model('Auth', AuthSchema);
 
 module.exports = Author;

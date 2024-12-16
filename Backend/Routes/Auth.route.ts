@@ -1,4 +1,3 @@
-import { Express } from "express";
 import { Router } from "express";
 import { register } from "../Controllers/Auth.Controller";
 import { login } from "../Controllers/Auth.Controller";
