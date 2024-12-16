@@ -4,6 +4,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   login: () => void;
   signup: () => void;
+  logout: () => void;
   setIsAuthenticated: (value: boolean) => void;
 }
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -18,9 +19,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = () => setIsAuthenticated(true);
   const signup = () => setIsAuthenticated(true);
+  const logout = () => setIsAuthenticated(false);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, signup, setIsAuthenticated }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, signup,logout, setIsAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

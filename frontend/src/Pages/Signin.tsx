@@ -56,6 +56,7 @@ const SignIn: React.FC = () => {
             </div>
           ))}
           <button type="submit">Sign In</button>
+            <Link to="/otp"><button id="forgot">Forgot password?</button></Link>
           <div className="or-divider">or</div>
           <button className="google-button">
             Sign in with Google

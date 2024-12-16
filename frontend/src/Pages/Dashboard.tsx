@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../Styles/Dashboard.css";
 import axios from "../Axios/Axios.ts";
+import { useAuth } from "../Context/AuthContext.tsx";
 
 interface Note {
   note: string;
@@ -11,6 +12,7 @@ const Dashboard: React.FC = () => {
   const [user, setUser] = useState<{ name: string; email: string } | null>(null);
   const [notes, setNotes] = useState<Note[]>([]);
   const navigate = useNavigate();
+  const { logout } = useAuth();
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -57,7 +59,11 @@ const Dashboard: React.FC = () => {
           <img src="/images/icon.png" alt="Logo" />
           <span className="logo-text">Dashboard</span>
         </div>
-        <span className="sign-out" onClick={() => navigate("/")}>
+        <span className="sign-out" onClick={() => { 
+          logout(); 
+          localStorage.removeItem("token");
+          navigate("/"); 
+        }}>
           Sign Out
         </span>
       </header>
@@ -74,7 +80,7 @@ const Dashboard: React.FC = () => {
         <section className="notes-section">
           <div className="notes-header">
             <button
-              className="create-note-button"
+              id="create-note-button"
               onClick={() => navigate("/create")}
             >
               Create Note

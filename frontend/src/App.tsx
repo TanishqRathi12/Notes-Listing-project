@@ -5,6 +5,7 @@ import SignUp from "./Pages/Signup.tsx";
 import CreateNote from "./Pages/CreateNote.tsx";
 import ProtectedRoute from "./Auth/ProtectedRoute.tsx";
 import { AuthProvider } from "./Context/AuthContext.tsx";
+import OtpSignin from "./Pages/OtpSignin.tsx";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -32,6 +33,10 @@ const App = () => {
       <CreateNote/>
       </ProtectedRoute>,
     },
+    {
+      path:"/otp",
+      element:<OtpSignin/>
+    }
   ]);
   return (
     <AuthProvider>

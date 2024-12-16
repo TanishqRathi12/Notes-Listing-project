@@ -107,14 +107,21 @@ body {
   text-align: center;
 }
 
-.note-card strong {
-  color: #007bff;
+#create-note-button  {
+  color: #ffffff;
   margin-right: 5px;
+  font-size: 0.9rem;
+  width: 20%;
 }
+
 
 @media screen and (max-width: 768px) {
   .dashboard-container {
     padding: 0 0.1em;
+  }
+
+  #create-note-button {
+    width: 100%;
   }
 
   .dashboard-header {

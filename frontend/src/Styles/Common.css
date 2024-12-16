@@ -167,6 +167,28 @@ button:hover {
   margin: 0 10px;
 }
 
+#forgot {
+  color: #007bff;
+  background-color: transparent;
+  text-align: right;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 3px;
+  display: flex;
+  justify-content:left;
+}
+
+#otp{
+  color: #007bff;
+  background-color: transparent;
+  text-align: right;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 3px;
+  display: flex;
+  justify-content:left;
+}
+
 .signup-link,
 .signin-link {
   color: #919395;
@@ -200,6 +222,7 @@ button:hover {
   height: 100vh;
   padding: 0 1rem;
 }
+
 }
 .create-note-container {
   display: flex;
