@@ -196,6 +196,20 @@ button:hover {
   margin-top: 20px;
 }
 
+.initial-request-message {
+  color: #ff9900;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+
+
 @media (max-width: 1040px) {
   .signup-right,
   .signin-right {

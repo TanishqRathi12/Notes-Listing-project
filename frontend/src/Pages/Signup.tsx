@@ -4,15 +4,16 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "../Axios/Axios.ts";
 import { useAuth } from "../Context/AuthContext.tsx";
 
-
-
 const SignUp: React.FC = () => {
   const [formData, setFormData] = useState({
     name: "",
     dob: "",
     email: "",
-    otp: "",
+    password: "", 
   });
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false); 
+  const [initialRequestMessage, setInitialRequestMessage] = useState(""); 
   const navigate = useNavigate();
   const { signup } = useAuth();
 
@@ -23,17 +24,23 @@ const SignUp: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage("");
+    setIsLoading(true);
+    setInitialRequestMessage("Please wait, the first request may take longer because the server is sleeping on render.");
+
     try {
-      console.log(formData)
       const response = await axios.post("/auth/register", formData);
       console.log("Signup response:", response.data);
       const token = response.data.token;
       localStorage.setItem("token", token);
       signup();
-      navigate("/dashboard"); 
+      navigate("/dashboard");
     } catch (error) {
       console.error("Error signing up:", error);
-      alert("Signup failed. Please try again.");
+      setErrorMessage("Signup failed. Please try again.");
+    } finally {
+      setIsLoading(false);
+      setInitialRequestMessage("");
     }
   };
 
@@ -52,7 +59,7 @@ const SignUp: React.FC = () => {
           {["name", "dob", "email", "password"].map((field) => (
             <div className="input-group" key={field}>
               <input
-                type={field === "dob" ? "date" : "text"}
+                type={field === "dob" ? "date" : field === "password" ? "password" : "text"}
                 id={field}
                 required
                 onChange={handleChange}
@@ -62,13 +69,17 @@ const SignUp: React.FC = () => {
               </label>
             </div>
           ))}
-          <button type="submit">Sign Up</button>
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Signing Up..." : "Sign Up"}
+          </button>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
           <div className="or-divider">or</div>
           <button className="google-button">
             Sign up with Google
             <img src="/images/plus.png" alt="Google Icon" />
           </button>
         </form>
+        {initialRequestMessage && <p className="initial-request-message">{initialRequestMessage}</p>}
         <p className="signin-link">
           Already have an account? <Link to="/">Sign In</Link>
         </p>

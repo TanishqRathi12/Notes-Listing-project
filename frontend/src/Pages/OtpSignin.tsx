@@ -10,6 +10,7 @@ const SignIn: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [timer, setTimer] = useState(0);
   const [isSendingOtp, setIsSendingOtp] = useState(false);
+  const [initialRequestMessage, setInitialRequestMessage] = useState(""); 
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -26,6 +27,7 @@ const SignIn: React.FC = () => {
     }
 
     setIsSendingOtp(true);
+    setInitialRequestMessage("Please wait, the first request may take longer because the server is sleeping on render.");
 
     try {
       const response = await axios.post("/otp/sendotp", {
@@ -44,13 +46,15 @@ const SignIn: React.FC = () => {
           if (timeLeft <= 0) {
             clearInterval(countdown);
             setIsSendingOtp(false); 
+            setInitialRequestMessage(""); 
           }
         }, 1000);
       }
     } catch (error) {
       console.error("Error sending OTP:", error);
-      setErrorMessage("Failed to send OTP. Please fill email field.");
+      setErrorMessage("Failed to send OTP. Please check your email.");
       setIsSendingOtp(false);
+      setInitialRequestMessage(""); 
     }
   };
 
@@ -124,6 +128,9 @@ const SignIn: React.FC = () => {
           </button>
 
           {errorMessage && <p className="error-message">{errorMessage}</p>}
+          {initialRequestMessage && (
+            <p className="initial-request-message">{initialRequestMessage}</p>
+          )}
 
           <div className="or-divider">or</div>
           <button className="google-button">

@@ -5,7 +5,10 @@ import axios from "../Axios/Axios.ts";
 import { useAuth } from "../Context/AuthContext.tsx";
 
 const SignIn: React.FC = () => {
-  const [formData, setFormData] = useState({ email: "", otp: "" });
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false); 
+  const [initialRequestMessage, setInitialRequestMessage] = useState(""); 
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -16,8 +19,11 @@ const SignIn: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage(""); 
+    setIsLoading(true);
+    setInitialRequestMessage("Please wait, the first request may take 30-40 seconds because the server is sleeping on render.");
+
     try {
-      console.log(formData);
       const response = await axios.post("/auth/login", formData);
       const token = response.data.token;
       localStorage.setItem("token", token);
@@ -25,7 +31,10 @@ const SignIn: React.FC = () => {
       navigate("/dashboard");
     } catch (error) {
       console.error("Sign-in error:", error);
-      alert("Invalid credentials. Please try again.");
+      setErrorMessage("Invalid credentials. Please try again.");
+    } finally {
+      setIsLoading(false);
+      setInitialRequestMessage(""); 
     }
   };
 
@@ -44,25 +53,31 @@ const SignIn: React.FC = () => {
           {["email", "password"].map((field) => (
             <div className="input-group" key={field}>
               <input
-                type="text"
+                type={field === "password" ? "password" : "text"}
                 id={field}
                 placeholder=" "
                 required
                 onChange={handleChange}
               />
               <label htmlFor={field}>
-                {field === "password" ? "password" : "Email Address"}
+                {field === "password" ? "Password" : "Email Address"}
               </label>
             </div>
           ))}
-          <button type="submit">Sign In</button>
-            <Link to="/otp"><button id="forgot">Forgot password?</button></Link>
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Signing In..." : "Sign In"}
+          </button>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+          <Link to="/otp">
+            <button id="forgot">Forgot password?</button>
+          </Link>
           <div className="or-divider">or</div>
           <button className="google-button">
             Sign in with Google
             <img src="/images/plus.png" alt="Google Icon" />
           </button>
         </form>
+        {initialRequestMessage && <p className="initial-request-message">{initialRequestMessage}</p>}
         <p className="signup-link">
           Don’t have an account? <Link to="/signup">Create one</Link>
         </p>
