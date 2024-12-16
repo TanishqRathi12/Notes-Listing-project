@@ -1,16 +1,28 @@
-import express,{Request,Response} from 'express';
+import express from 'express';
 import dotenv from 'dotenv';
+import AuthRouter from './Routes/Auth.route';
+const cors = require('cors');
+import OtpRouter from './Routes/otp.route';
+import mongoose from 'mongoose';
 
 
 const app = express();
 dotenv.config();
 
-app.get('/health',(req:Request,res:Response)=>{
-    res.send('Ok!');
-});
+app.use(express.json());
+app.use(cors());
 
-app.listen(process.env.PORT,()=>{
-    console.log(`Server running on port ${process.env.PORT}`);
-});
+app.use('/auth',AuthRouter);
+app.use('/otp',OtpRouter);
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT,()=>{
+    console.log(`Server is running on port ${PORT}`);
+    mongoose.connect(process.env.MONGO_URI as string)
+    .then(()=>console.log('Connected to MongoDB'))
+    .catch((err:Error)=>console.log("Error connecting to MongoDB",err));
+})
+
 
 

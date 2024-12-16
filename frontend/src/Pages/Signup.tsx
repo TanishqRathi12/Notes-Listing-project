@@ -41,17 +41,16 @@ const SignUp: React.FC = () => {
           <p className="to-access">Join us to unlock exclusive features.</p>
         </div>
         <form onSubmit={handleSubmit}>
-          {["name", "dob", "email", "otp"].map((field) => (
+          {["name", "dob", "email", "password"].map((field) => (
             <div className="input-group" key={field}>
               <input
                 type={field === "dob" ? "date" : "text"}
                 id={field}
-                placeholder=" "
                 required
                 onChange={handleChange}
               />
               <label htmlFor={field}>
-                {field === "otp" ? "OTP" : field.charAt(0).toUpperCase() + field.slice(1)}
+                {field === "password" ? "Password" : field.charAt(0).toUpperCase() + field.slice(1)}
               </label>
             </div>
           ))}
