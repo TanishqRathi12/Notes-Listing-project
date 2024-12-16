@@ -6,7 +6,6 @@ dotenv.config();
 
 export const register = async (req: Request, res: Response) => {
   const { email, password, dob, name } = req.body;
- 
   try {
     if (!email || !password || !dob || !name) {
       return res.status(400).send("Please fill all the fields");

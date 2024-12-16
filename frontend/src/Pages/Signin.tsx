@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import "../Styles/Common.css";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../Axios/Axios.ts";
+import { useAuth } from "../Context/AuthContext.tsx";
 
 const SignIn: React.FC = () => {
   const [formData, setFormData] = useState({ email: "", otp: "" });
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -15,8 +17,11 @@ const SignIn: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post("/api/signin", formData);
-      alert("Sign-in successful!");
+      console.log(formData);
+      const response = await axios.post("/auth/login", formData);
+      const token = response.data.token;
+      localStorage.setItem("token", token);
+      login();
       navigate("/dashboard");
     } catch (error) {
       console.error("Sign-in error:", error);
@@ -28,7 +33,7 @@ const SignIn: React.FC = () => {
     <div className="signin-container">
       <div className="signin-left">
         <div className="center">
-          <div className="logo">
+          <div id="logo">
             <img src="/images/icon.png" alt="Logo" />
             <p>HD</p>
           </div>
@@ -36,7 +41,7 @@ const SignIn: React.FC = () => {
           <p className="to-access">Log in to access your dashboard.</p>
         </div>
         <form onSubmit={handleSubmit}>
-          {["email", "otp"].map((field) => (
+          {["email", "password"].map((field) => (
             <div className="input-group" key={field}>
               <input
                 type="text"
@@ -45,7 +50,9 @@ const SignIn: React.FC = () => {
                 required
                 onChange={handleChange}
               />
-              <label htmlFor={field}>{field === "otp" ? "OTP" : "Email Address"}</label>
+              <label htmlFor={field}>
+                {field === "password" ? "password" : "Email Address"}
+              </label>
             </div>
           ))}
           <button type="submit">Sign In</button>

@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import "../Styles/Common.css";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../Axios/Axios.ts";
+import { useAuth } from "../Context/AuthContext.tsx";
+
+
 
 const SignUp: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +14,7 @@ const SignUp: React.FC = () => {
     otp: "",
   });
   const navigate = useNavigate();
+  const { signup } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -20,9 +24,13 @@ const SignUp: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post("/api/signup", formData);
-      alert("Signup successful!");
-      navigate("/"); // Navigate to sign-in page
+      console.log(formData)
+      const response = await axios.post("/auth/register", formData);
+      console.log("Signup response:", response.data);
+      const token = response.data.token;
+      localStorage.setItem("token", token);
+      signup();
+      navigate("/dashboard"); 
     } catch (error) {
       console.error("Error signing up:", error);
       alert("Signup failed. Please try again.");
@@ -33,7 +41,7 @@ const SignUp: React.FC = () => {
     <div className="signup-container">
       <div className="signup-left">
         <div className="center">
-          <div className="logo">
+          <div id="logo">
             <img src="/images/icon.png" alt="Logo" />
             <p>HD</p>
           </div>

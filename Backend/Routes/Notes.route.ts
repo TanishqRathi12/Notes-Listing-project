@@ -14,11 +14,11 @@ NotesRouter.post('/addNotes', verifyToken,(req, res) => {
     addNotesToStudent(req, res);
 });
 
-NotesRouter.post('/getNotes',verifyToken,(req,res)=>{
+NotesRouter.get('/getNotes',verifyToken,(req,res)=>{
     getNotesOfStudent(req,res);
 });
 
-NotesRouter.post('/deleteNote',verifyToken,(req,res)=>{
+NotesRouter.delete('/deleteNote',verifyToken,(req,res)=>{
     deleteNote(req,res);
 });
 

@@ -16,8 +16,6 @@ interface CustomRequest extends Request {
 
 const verifyToken = (req: CustomRequest, res: Response, next: NextFunction): void => {
   const authHeader = req.headers['authorization'];
-
-
   if (!authHeader) {
      res.status(401).json({ message: 'No token provided' });
      return
@@ -38,7 +36,6 @@ const verifyToken = (req: CustomRequest, res: Response, next: NextFunction): voi
     if (!decodedToken._id) {
       return res.status(400).json({ message: 'Token does not contain a valid user ID' });
     }
-    
     req.user = decodedToken._id;
     next();
   });

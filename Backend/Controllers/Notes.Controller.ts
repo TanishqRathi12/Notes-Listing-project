@@ -62,7 +62,7 @@ export const getNotesOfStudent = async (req: Request, res: Response) => {
 export const deleteNote = async (req: Request, res: Response) => {
   const { note } = req.body;
   const studentId = await fetchUser(req, res);
-
+  console.log(studentId);
   try {
     if (!studentId || !note) {
       return res.status(400).send("Student ID and Note ID are required");

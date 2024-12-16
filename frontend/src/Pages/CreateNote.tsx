@@ -1,23 +1,30 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../Styles/Common.css";
+import axios from "../Axios/Axios.ts";
 
-const CreateNote: React.FC = () => {
+const CreateNote: React.FC = (): React.ReactElement => {
   const [noteContent, setNoteContent] = useState("");
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   const handleCreateNote = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      await fetch("/api/notes", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ content: noteContent }),
-      });
+      if(token) {
+        const response = await axios.post(
+          "/notes/addNotes",
+          { note: noteContent },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+
+            },
+          }
+        );
       navigate("/dashboard");
+    }
     } catch (error) {
       console.error("Error creating note:", error);
     }

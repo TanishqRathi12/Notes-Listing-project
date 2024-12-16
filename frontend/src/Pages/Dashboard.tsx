@@ -1,46 +1,50 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../Styles/Dashboard.css";
+import axios from "../Axios/Axios.ts";
 
 interface Note {
-  id: string;
-  content: string;
+  note: string;
 }
 
 const Dashboard: React.FC = () => {
-  const [notes, setNotes] = useState<Note[]>([]);
   const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  const [notes, setNotes] = useState<Note[]>([]);
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchData = async () => {
+      const token = localStorage.getItem("token"); 
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+  
       try {
-
-        const userResponse = await fetch("/api/user");
-        const userData = await userResponse.json();
+        const userResponse = await axios.get("/notes/getNotes", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const userData = userResponse.data;
         setUser(userData);
-
-
-        const notesResponse = await fetch("/api/notes");
-        const notesData = await notesResponse.json();
-        setNotes(notesData);
+        setNotes(userData.notes);
       } catch (error) {
         console.error("Error fetching data:", error);
+        navigate("/login"); 
       }
     };
-
+  
     fetchData();
-  }, []);
+  }, [user]); 
 
-
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (note: string) => {
     try {
-      await fetch(`/api/notes/${id}`, {
-        method: "DELETE",
+      if (token){
+      await axios.delete(`/notes/deleteNote`, {
+        headers: { Authorization: `Bearer ${token}` },
+        data: { note },
       });
-
-
-      setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
+    }
     } catch (error) {
       console.error("Error deleting note:", error);
     }
@@ -60,17 +64,15 @@ const Dashboard: React.FC = () => {
 
       <main className="dashboard-main">
         <section className="welcome-section">
-          <h2>Welcome</h2>
+          <h2>Welcome, {user?.name}!</h2>
           {user && (
-            <p>
-              {user.name} ({user.email})
+            <p>Email:({user.email})
             </p>
           )}
         </section>
 
         <section className="notes-section">
           <div className="notes-header">
-            <h3>Your Notes</h3>
             <button
               className="create-note-button"
               onClick={() => navigate("/create")}
@@ -78,14 +80,15 @@ const Dashboard: React.FC = () => {
               Create Note
             </button>
           </div>
+          <h3 id="Notes">Notes</h3>
 
           <div className="notes-container">
-            {notes.map((note) => (
-              <div className="note-card" key={note.id}>
-                <p>{note.content}</p>
+            {notes.map((note,index) => (
+              <div className="note-card" key={index}>
+                <p>{note}</p>
                 <span
                   className="delete-icon"
-                  onClick={() => handleDelete(note.id)}
+                  onClick={() => handleDelete(note)}
                 >
                   🗑️
                 </span>

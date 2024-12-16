@@ -23,7 +23,7 @@ export const sendOtp = async (req: Request, res: Response) => {
         step: 300,
         digit: 6,
       });
-      await SendMail(email, otp);;
+      await SendMail(email, otp);
       res.status(200).send("OTP sent to email");
     } catch (err) {
       res.status(500).json({ message: "Server Error" });
@@ -32,7 +32,7 @@ export const sendOtp = async (req: Request, res: Response) => {
   
   export const resetPassword = async (req: Request, res: Response) => {
     const { email, otp } = req.body;
-    console.log(otp);
+    //console.log(otp);
     try {
       if (!email || !otp) {
         return res.status(400).send("Please fill all the fields");

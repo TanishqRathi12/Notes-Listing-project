@@ -42,7 +42,7 @@ body {
   border-radius: 1.4em;
 }
 
-.logo {
+#logo {
   display: flex;
   align-items: center;
   position: absolute;
@@ -50,12 +50,12 @@ body {
   left: 20px;
 }
 
-.logo img {
+#logo img {
   height: 30px;
   margin-right: 10px;
 }
 
-.logo p {
+#logo p {
   color: black;
   font-weight: 700;
   font-size: larger;
@@ -186,7 +186,7 @@ button:hover {
     padding: 0px;
   }
   
-  .logo {
+  #logo {
     justify-content: center;
     width: 100%;
     padding-left: 0px;
