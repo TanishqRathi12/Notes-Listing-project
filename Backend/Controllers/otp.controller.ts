@@ -37,6 +37,7 @@ export const sendOtp = async (req: Request, res: Response) => {
       if (!email || !otp) {
         return res.status(400).send("Please fill all the fields");
       }
+      const user = await findOne({email})
   
       const isValid = speakeasy.totp.verify({
         secret: process.env.OTP_SECRET,
@@ -49,7 +50,8 @@ export const sendOtp = async (req: Request, res: Response) => {
       if (!isValid) {
         return res.status(400).send("Invalid OTP");
       } else {
-        const token = createToken({ email });
+       
+        const token = createToken({ _id: user._id});
   
         res.status(200).json({ message: "OTP verified", token });
       }
@@ -87,3 +89,11 @@ export const sendOtp = async (req: Request, res: Response) => {
       throw new Error("Failed to send OTP email");
     }
   };
+  async function findOne({ email }: { email: string }) {
+    try {
+      const user = await Author.findOne({ email });
+      return user;
+    } catch (err) {
+      throw new Error("Failed to find user");
+    }
+  }

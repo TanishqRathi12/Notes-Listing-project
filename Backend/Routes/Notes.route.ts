@@ -1,20 +1,27 @@
 import { Router } from "express";
-
+const verifyToken = require('../Middleware/Auth.middleware')
 import { addNotesToStudent } from "../Controllers/Notes.Controller";
 import { getNotesOfStudent } from "../Controllers/Notes.Controller";
+import { deleteNote } from "../Controllers/Notes.Controller";
 
 const NotesRouter = Router();
 
-NotesRouter.get('/health',(req,res)=>{
+NotesRouter.get('/health',(_,res)=>{
     res.send('Ok!');
 });
 
-NotesRouter.post('/addNotes',(req,res)=>{
-    addNotesToStudent(req,res);
+NotesRouter.post('/addNotes', verifyToken,(req, res) => {
+    addNotesToStudent(req, res);
 });
 
-NotesRouter.post('/getNotes',(req,res)=>{
+NotesRouter.post('/getNotes',verifyToken,(req,res)=>{
     getNotesOfStudent(req,res);
 });
+
+NotesRouter.post('/deleteNote',verifyToken,(req,res)=>{
+    deleteNote(req,res);
+});
+
+
 
 export default NotesRouter;

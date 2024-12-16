@@ -20,7 +20,7 @@ export const register = async (req: Request, res: Response) => {
     
     const user = new Author({ email, password, dob, name });
     await user.save();
-    const token = createToken({ email });
+    const token = createToken({ _id: user._id });
     res.status(201).json({message:"User created",token});
   } catch (err) {
     res.status(500).send(err);
@@ -41,7 +41,7 @@ export const login = async (req: Request, res: Response) => {
     if (!isMatch) {
       return res.status(400).send("Invalid credentials");
     }
-    const token = createToken({ email });
+    const token = createToken({_id: user._id  });
     res.status(200).json({ message: "User Logged in", token });
   } catch (err) {
     res.status(500).json({ message: "Server Error" });
