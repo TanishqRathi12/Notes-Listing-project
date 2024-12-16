@@ -1,6 +1,6 @@
 const dotenv = require("dotenv");
 const {createToken} = require("./Auth.Controller");
-const { Author } = require("../models/Auth");
+const Author = require("../models/Auth");
 import { Request, Response } from "express";
 const speakeasy = require("speakeasy");
 const nodeMailer = require("nodemailer");
@@ -23,9 +23,7 @@ export const sendOtp = async (req: Request, res: Response) => {
         step: 300,
         digit: 6,
       });
-  
-      await sendMail(email, otp);
-  
+      await SendMail(email, otp);;
       res.status(200).send("OTP sent to email");
     } catch (err) {
       res.status(500).json({ message: "Server Error" });
@@ -34,19 +32,20 @@ export const sendOtp = async (req: Request, res: Response) => {
   
   export const resetPassword = async (req: Request, res: Response) => {
     const { email, otp } = req.body;
+    console.log(otp);
     try {
       if (!email || !otp) {
         return res.status(400).send("Please fill all the fields");
       }
-      const secret = process.env.OTP_SECRET + email;
   
       const isValid = speakeasy.totp.verify({
-        secret,
+        secret: process.env.OTP_SECRET,
         encoding: "base32",
         token: otp,
         step: 300,
-        window: 1,
+        window: 2,
       });
+      console.log(isValid);
       if (!isValid) {
         return res.status(400).send("Invalid OTP");
       } else {
@@ -59,7 +58,7 @@ export const sendOtp = async (req: Request, res: Response) => {
     }
   };
   
-  const sendMail = async (email: string, otp: string) => {
+  const SendMail = async (email: string, otp: number) => {
     try {
       const transporter = nodeMailer.createTransport({
         service: "gmail",
@@ -67,14 +66,23 @@ export const sendOtp = async (req: Request, res: Response) => {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASS,
         },
+      tls: {
+        rejectUnauthorized: false,  
+      },
       });
+     
       const mailOptions = {
         from: process.env.EMAIL_USER,
         to: email,
         subject: "OTP for password reset",
         text: `Your OTP for password reset is: ${otp}. Please use this OTP to reset your password. This OTP is valid for 5 minutes.`,
       };
-      await transporter.sendMail(mailOptions);
+     // console.log(mailOptions);
+     try{
+       await transporter.sendMail(mailOptions);
+     }catch(err){
+      console.log(err);
+    }
     } catch (err) {
       throw new Error("Failed to send OTP email");
     }

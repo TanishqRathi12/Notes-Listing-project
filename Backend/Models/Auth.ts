@@ -2,20 +2,20 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
 const AuthSchema = new mongoose.Schema({
-    email: {
+    name: {
         type: String,
         required: true,
         unique: true,
     },
-    password: {
+    email: {
+        type: String,
+        required: true,
+    },
+    password:{
         type: String,
         required: true,
     },
     dob:{
-        type: Date,
-        required: true,
-    },
-    date:{
         type: Date,
         required:true
     }

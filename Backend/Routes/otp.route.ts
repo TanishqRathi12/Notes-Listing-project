@@ -14,7 +14,7 @@ OtpRouter.post('/sendotp',(req,res)=>{
     sendOtp(req,res);
 });
 
-OtpRouter.post('/resetpassword',(req,res)=>{
+OtpRouter.post('/loginByOtp',(req,res)=>{
     resetPassword(req,res);
 });
 
