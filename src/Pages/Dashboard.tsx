@@ -17,12 +17,6 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem("token"); 
-      if (!token) {
-        navigate("/login");
-        return;
-      }
-  
       try {
         const userResponse = await axios.get("/notes/getNotes", {
           headers: { Authorization: `Bearer ${token}` },
@@ -32,7 +26,7 @@ const Dashboard: React.FC = () => {
         setNotes(userData.notes);
       } catch (error) {
         console.error("Error fetching data:", error);
-        navigate("/login"); 
+        navigate("/"); 
       }
     };
   
