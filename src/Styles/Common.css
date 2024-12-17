@@ -6,7 +6,7 @@
 }
 
 body {
-  background-color: #f9fafc;
+  background-color: #ffffff;
 }
 
 .signup-container,
@@ -235,7 +235,6 @@ button:hover {
   display: flex;
   width: 100%;
   height: 100vh;
-  padding: 0 3rem;
 }
 
 }
