@@ -27,7 +27,7 @@ const SignIn: React.FC = () => {
     }
 
     setIsSendingOtp(true);
-    setInitialRequestMessage("Please wait, the first request may take longer because the server is sleeping on render.");
+    setInitialRequestMessage("Please wait, request may take time on free hosting.");
 
     try {
       const response = await axios.post("/otp/sendotp", {

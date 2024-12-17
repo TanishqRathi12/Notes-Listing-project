@@ -21,7 +21,7 @@ const SignIn: React.FC = () => {
     e.preventDefault();
     setErrorMessage(""); 
     setIsLoading(true);
-    setInitialRequestMessage("Please wait, the first request may take 30-40 seconds because the server is sleeping on render.");
+    setInitialRequestMessage("Please wait, request may take time on free hosting.");
 
     try {
       const response = await axios.post("/auth/login", formData);

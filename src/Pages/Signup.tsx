@@ -26,7 +26,7 @@ const SignUp: React.FC = () => {
     e.preventDefault();
     setErrorMessage("");
     setIsLoading(true);
-    setInitialRequestMessage("Please wait, the first request may take longer because the server is sleeping on render.");
+    setInitialRequestMessage("Please wait, the first request may take longer on free hosting.");
 
     try {
       const response = await axios.post("/auth/register", formData);

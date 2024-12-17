@@ -26,7 +26,7 @@ const Dashboard: React.FC = () => {
         setNotes(userData.notes);
       } catch (error) {
         console.error("Error fetching data:", error);
-        navigate("/"); 
+      //  navigate("/"); 
       }
     };
   
