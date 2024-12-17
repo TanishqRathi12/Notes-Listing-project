@@ -13,7 +13,7 @@ body {
 .signin-container {
   display: flex;
   height: 100vh;
-  padding: 0 0 0 3rem;
+  padding: 0 0 0 1rem;
 }
 .signup-left,
 .signin-left {
@@ -225,8 +225,8 @@ button:hover {
   #logo {
     justify-content: center;
     width: 100%;
-    padding-left: 0px;
-  }
+    padding-right: 1.2rem 
+   }
   .center {
     text-align: center;
   }
