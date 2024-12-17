@@ -17,9 +17,9 @@ body {
 }
 .signup-left,
 .signin-left {
-  width: 30%;
+  width: 50%;
   background-color: #ffffff;
-  padding: 40px;
+  padding: 180px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -27,7 +27,7 @@ body {
 
 .signup-right,
 .signin-right {
-  width: 70%;
+  width: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -38,7 +38,7 @@ body {
 .signin-right img {
   width: 98% ;
   height: 98%;
-  object-fit: cover;
+  object-fit:fill;
   border-radius: 1.4em;
 }
 
@@ -51,14 +51,14 @@ body {
 }
 
 #logo img {
-  height: 30px;
+  height: 35px;
   margin-right: 10px;
 }
 
 #logo p {
   color: black;
   font-weight: 700;
-  font-size: larger;
+  font-size:x-large;
   margin: 0;
 }
 
@@ -97,6 +97,14 @@ body {
 
 .center {
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+}
+
+.center h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
 }
 
 .input-group input:focus,
@@ -143,6 +151,8 @@ button:hover {
   border-radius: 4px;
   color: black;
   font-size: 14px;
+  font-weight:600;
+
 }
 
 .google-button img {
@@ -229,6 +239,9 @@ button:hover {
    }
   .center {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
   }
   .signup-container,
 .signin-container {
@@ -254,13 +267,6 @@ button:hover {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   max-width: 500px;
   width: 100%;
-}
-
-h1 {
-  font-size: 24px;
-  color: #1e293b;
-  text-align: center;
-  margin-bottom: 20px;
 }
 
 .form-group {
